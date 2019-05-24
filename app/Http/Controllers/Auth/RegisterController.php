@@ -51,7 +51,6 @@ class RegisterController extends Controller
             'username' => ['required', 'alpha_dash', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'avatar' => ['required','mimes:jpg,png,jpeg'],
         ]);
     }
 
@@ -67,10 +66,6 @@ class RegisterController extends Controller
         $new_user->username = $data['username'];
         $new_user->email = $data['email'];
         $new_user->password = Hash::make($data['password']);
-        if ($data['avatar']) {
-            $file = $data['avatar']->store('avatars','public');
-            $new_user->avatar = $file;
-        }
         $new_user->save();
         return $new_user;
     }

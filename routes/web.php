@@ -61,8 +61,6 @@ Route::middleware(['auth'])->group(function (){
 		Route::PUT('{title}','PostController@update')->name('posts.update');
 		Route::POST('/','PostController@store')->name('posts.store');
 	});
-	Route::post('/ajaxRequest', 'PostController@ajaxRequest')->name('ajaxRequest');
-
 
 	/**
 	 * Route Comment
