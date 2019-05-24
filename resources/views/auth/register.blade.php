@@ -69,21 +69,6 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
-
-<div class="form-group row row">
-<label for="avatar" class="col-md-4 col-form-label text-md-right">Avatar</label>
-<div class="col-md-6">
-<div class="custom-file">
-<label for="avatar" class="custom-file-label">avatar</label>
-<input type="file" class="form-control custom-file-input {{$errors->first('avatar') ? "is-invalid": ""}}" name="avatar" id="avatar">
-<div class="invalid-feedback">
-{{$errors->first('avatar')}}
-</div>
-</div>
-</div>
-</div>
-
-
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

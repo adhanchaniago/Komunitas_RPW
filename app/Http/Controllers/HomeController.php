@@ -39,8 +39,8 @@ class HomeController extends Controller {
                     ->where('title','LIKE',"%{$request->q}%")
                     ->orderBy('posts.updated_at', 'desc')->distinct()->get();
             }
-            if ($popPost->isempty()) {
-                $kom = DB::table('comunities')->where('followers',>,50)->get();
+            if ($post->isempty()) {
+                $kom = DB::table('comunities')->where('followers','>',50)->get();
                 return view('getstarted', compact('kom'));
             }
             return view('home', compact('post','newPost'))->with(['popular'=>$popPost]);
