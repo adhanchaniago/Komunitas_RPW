@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Comunity;
 use App\User;
+use App\Status;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -38,6 +39,7 @@ class UserController extends Controller
 
     public function show($username) {
         $user = User::where('username', $username)->firstOrFail();
+        // $status = Status::where('user_id', $user['id'])->firstOrFail();
         return view('user.show', compact('user'));
     }
 

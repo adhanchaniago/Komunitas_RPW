@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Status::class, function (Faker $faker) {
     return [
-        'status' => $faker->realText(30),
-        'user_id' => User::all()->random(),
+        'status' => $faker->realText(50),
+        'user_id' => $faker->unique()->numberBetween(1,30),
     ];
 });

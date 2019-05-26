@@ -1,5 +1,4 @@
 @extends('template.app')
-<div class="container">
 @section('content')
 <div class="container">
 	<div class="card" style="max-width: 70%; margin:auto; margin-top:40px;">
@@ -79,6 +78,7 @@
 <br>
 @endsection
 @section('sidebar')
+<br>
 <div class="row">
     <div class="col-12">
         <div class="card">

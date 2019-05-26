@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class PostController extends Controller {
     public function index() {
@@ -54,7 +55,7 @@ class PostController extends Controller {
             ->join('users','comments.user_id','users.id')
             ->select('posts.id','users.username','comments.content','comments.parent_id')
             ->where('title', $title)->get();
-
+        DB::table('posts')->where('title', $title)->update(['last_view'=>Carbon::now()]);
         $newPost = DB::table('posts')
             ->join('users','posts.user_id','=','users.id')
             ->join('comunities','posts.comunity_id','=','comunities.id')
@@ -63,8 +64,9 @@ class PostController extends Controller {
         $popPost = DB::table('posts')
             ->join('users','posts.user_id','=','users.id')
             ->join('comunities','posts.comunity_id','=','comunities.id')
-            ->select('posts.id as post_id','posts.content','posts.title','posts.vote','posts.media','comunities.name','users.username')
-            ->where('view','>=',100)->get();
+            ->select('posts.id as post_id','posts.content','posts.title','posts.vote','posts.media','comunities.name','users.username','posts.user_id','posts.updated_at')
+            ->where('posts.last_view','>=','DATE(NOW()) - INTERVAL 1 day')
+            ->distinct()->get();
         if(Auth::id() != $post->user_id){
             DB::table('posts')->where('title', $title)->increment('view',1);
         }

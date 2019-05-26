@@ -9,9 +9,6 @@
             </li>
             @auth
             @if(Auth::user()->role == 'member')
-            <li class="nav-item active">
-               <a class="nav-link" href="{{ route('home') }}"><i class="fa fa-fire ml-4"></i> Hot Post <span class="sr-only">(current)</span></a>
-            </li>
             <li class="nav-item active mr-5">
                <a class="nav-link" href="{{ route('home.newPost') }}"><i  class="fa fa-lemon ml-3"></i> New Post <span class="sr-only">(current)</span></a>
             </li>

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Status;
 
 class User extends Authenticatable
 {
@@ -50,7 +51,7 @@ class User extends Authenticatable
         return $this->hasMany(App\Comment::class, 'user_id', 'id');
     }
 
-    public function status() {
-        $this->hasOne('App\Status');
+    public function statuses() {
+        return $this->hasOne(Status::class, 'user_id', 'id');
     }
 }

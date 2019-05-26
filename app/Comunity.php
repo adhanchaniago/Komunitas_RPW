@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Comunity extends Model {
-    protected $fillable = ['type','name','followers'];
+    protected $fillable = ['type','name','followers','banner'];
 
     public function event() {
         // return $this->belongsToMany('App\Event')->using('App\EventComunity');

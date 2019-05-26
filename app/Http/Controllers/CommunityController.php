@@ -106,15 +106,6 @@ class CommunityController extends Controller
         return redirect()->route('comunity.show',$name);
 
     }
-    public function edit(Community $community)
-    {
-        //
-    }
-
-    public function update(Request $request, Community $community)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
