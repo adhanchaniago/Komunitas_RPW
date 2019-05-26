@@ -75,11 +75,10 @@ class HomeController extends Controller {
             $user_id = Auth::id();
             $post = DB::table('users')->join('usercomunity', 'users.id', '=', 'usercomunity.user_id')
                 ->join('comunities','usercomunity.comunity_id', '=', 'comunities.id')
-                ->join('mostvisited','comunities.id', '=', 'mostvisited.comunity_id')
-                ->select('mostvisited.id as post_id','mostvisited.content','mostvisited.title','mostvisited.vote','mostvisited.media','mostvisited.view','comunities.name','mostvisited.updated_at','mostvisited.user_id','mostvisited.updated_at')
-                ->where('users.id', $user_id)
-                ->where('mostvisited.updated_at','>=','NOW() - INTERVAL 3 day')
-                ->orderBy('mostvisited.view', 'desc')->distinct()->get();
+                ->join('posts','comunities.id', '=', 'posts.comunity_id')
+                ->select('posts.id as post_id','posts.content','posts.title','posts.vote','posts.media','posts.view','comunities.name','posts.updated_at','posts.user_id','posts.updated_at')
+                ->where('users.id', $user_id)->orderBy('posts.updated_at', 'desc')
+                ->distinct()->get();
             if (!empty($request->q)) {
                 $post = DB::table('users')->join('usercomunity', 'users.id', '=', 'usercomunity.user_id')
                     ->join('comunities','usercomunity.comunity_id', '=', 'comunities.id')

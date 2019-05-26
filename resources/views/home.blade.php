@@ -11,7 +11,6 @@
                     <div class="col-8">
                         <a href="{{ route('posts.show', $item->title) }}">{{ $item->title }}</a>
                         <br>
-                        {{ $item->view }}
                         On&nbsp;<a href="{{ route('comunity.show', $item->name) }}">{{ $item->name }}</a>
                         <br>
                         {{ $item->updated_at }}
