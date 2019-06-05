@@ -4,12 +4,15 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Status;
+use App\Post;
+use App\Comment;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -38,17 +41,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $dates = [
+        'deleted_at',
+    ];
+
     public function comunity() {
         // return $this->belongsToMany('App\Comunity')->using('App\UserComunity');
         return $this->belongsToMany('App\Comunity','usercomunity');
     }
 
     public function post() {
-        return $this->hasMany(App\Post::class, 'user_id', 'id');
+        return $this->hasMany(Post::class, 'user_id', 'id');
     }
 
     public function comment() {
-        return $this->hasMany(App\Comment::class, 'user_id', 'id');
+        return $this->hasMany(Comment::class, 'user_id', 'id');
     }
 
     public function statuses() {

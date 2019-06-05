@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
 	<div class="card" style="max-width: 70%; margin:auto; margin-top:40px;">
-		<div class="card-header text-white">
+		<div class="card-header text-white bg-dark">
 			<h5>Create Interesting Post</h5>
 		</div>
 		<div class="card-body">
@@ -61,6 +61,20 @@
 							<textarea name="content" class="form-control {{$errors->first('content') ? "is-invalid": ""}}" id="content" cols="20" rows="5">{{ old('content') }}</textarea>
 							<div class="invalid-feedback">
 								{{$errors->first('content')}}
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="alert alert-info">
+								INFO :
+								<ul>
+								    <li><b>Teks tebal</b> : [b]disini teks[/b]</li>
+								    <li><u>Teks garis bawah</u> : [u]disini teks[/u]</li>
+								    <li><i>Teks Miring</i> : [i]disini teks[/i]</li>
+								    <li><s>Teks coret</s> : [s]disini teks[/s]</li>
+								</ul>
 							</div>
 						</div>
 					</div>

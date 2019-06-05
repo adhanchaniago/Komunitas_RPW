@@ -5,7 +5,7 @@
         <h1 class="display-1">
             OlaWikiWiki
             <br>
-            <small class="text-muted">Welcome</small>
+            <small class="text-muted">Welcome</small><br>
         </h1>
     </div>
     <div class="carousel carousel-landing slider" id="carousel-158813">

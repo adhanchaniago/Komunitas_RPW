@@ -31,7 +31,9 @@ class CommentController extends Controller
         $new_comments->post_id = $request->post_id;
         $new_comments->content = $request->content;
         $new_comments->save();
-        return back();
+
+        $comment = Comment::latest()->where('user_id',Auth::id())->with('user')->first();
+        return response()->json($comment);
     }
 
     /**

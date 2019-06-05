@@ -3,58 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Status;
+use App\User;
 use Illuminate\Http\Request;
 
-class StatusController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+class StatusController extends Controller {
+    public function index() {
+        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+        $request->validate([
+            'status'=>'required',
+            'user_id'=>'required',
+        ]);
+
+        Status::where('user_id',$request->user_id)->delete();
+
+        $new_status = new Status();
+        $new_status->user_id = $request->user_id;
+        $new_status->status = $request->status;
+        $new_status->save();
+
+        $user = User::where('id', $request->user_id)->withTrashed()->with('statuses')->firstOrFail();
+        // return $user;
+        return response()->json($user);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Status  $status
-     * @return \Illuminate\Http\Response
-     */
     public function show(Status $status)
     {
-        //
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Status  $status
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Status $status)
     {
         //

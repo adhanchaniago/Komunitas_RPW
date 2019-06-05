@@ -60,6 +60,7 @@ Route::middleware(['auth'])->group(function (){
 		Route::delete('{id}/delete','PostController@delete')->name('posts.delete');
 		Route::PUT('{title}','PostController@update')->name('posts.update');
 		Route::POST('/','PostController@store')->name('posts.store');
+		Route::get('like/{id}','PostController@like')->name('posts.like');
 	});
 
 	/**
@@ -67,6 +68,10 @@ Route::middleware(['auth'])->group(function (){
 	 */
 	Route::prefix('comment')->group(function(){
 		Route::POST('/','CommentController@store')->name('comments.store');
+	});
+
+	Route::prefix('status')->group(function(){
+		Route::POST('/','StatusController@store')->name('status.store');
 	});
 
 	// Route::post('posts/{id}/act', 'HomeController@actOnPost');
@@ -79,6 +84,7 @@ Route::middleware(['auth'])->group(function (){
 		Route::PUT('{username}/changePassword','UserController@changePassword')->name('users.changePassword');
 		Route::PUT('{username}/update','UserController@update')->name('users.update');
 		Route::delete('{username}/delete','UserController@destroy')->name('users.delete');
+		
 	});
 
 	/**

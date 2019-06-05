@@ -27,8 +27,9 @@
 			<div class="row justify-content-center">
 				<img src="{{ asset('storage/'.$post->media) }}" alt="asd" class="img-fluid img-thumbnail">
 			</div>
+            <hr>
 			<div class="row">
-				{{ $post['content'] }}
+                <p id="artikel">{{ $post['content'] }}</p>
 			</div>
 		</div>
 		<div class="card-footer">
@@ -38,10 +39,37 @@
 <br>
 <div class="row">
     <div class="col-md-12">
-        @include('post.comments', ['comments' => $comment])
+        {{-- @include('post.comments', ['comments' => $comment]) --}}
+        <div id="commentBody">
+        @foreach($comment as $item)
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card w-100">
+                    <div class="card-header">
+                        <i class="fas fa-arrow-right"></i> <a href="{{ route('users.show', $item->username) }}">
+                        <strong>{{ $item->username }}</strong>
+                        @if($post->user->username == $item->username)
+                            <span class="ml-2 badge badge-success">THREAD STARTER</span>
+                        @elseif($item->deleted_at != null)
+                            <span class="ml-2 badge badge-danger">ACCOUNT IS DELETED</span>
+                        @elseif($item->role == 'admin')
+                            <span class="ml-2 badge badge-info">ADMIN</span>
+                        @endif
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <p class="comment">{{ $item->content }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        @endforeach
+        </div>
         <hr>
         <h4>Reply</h4>
-        <form method="post" action="{{ route('comments.store') }}">
+        {{-- <form method="post" action="{{ route('comments.store') }}" id="commentForm"> --}}
+        <form method="post" action="" id="commentForm">
             @csrf
             <div class="form-group">
                 <textarea class="form-control shad" name="content"></textarea>
@@ -86,7 +114,7 @@
                         <img src="{{ asset('storage/'.$item->media) }}" alt="" class="img-fluid img-thumbnail">
                     </div><br>
                     <div class="col-md-8">
-                        <p class="lead small">{{ Str::words($item->content, 30, '...') }}</p>
+                        <p class="small" id="artikel">{{ Str::words($item->content, 30, '...') }}</p>
                     </div>
                 </div>
             </div>
@@ -116,7 +144,7 @@
                         <img src="{{ asset('storage/'.$item->media) }}" alt="" class="img-fluid img-thumbnail">
                     </div>
                     <div class="col-md-8">
-                        <p class="lead">{{ Str::words($item->content, 30, '...') }}</p>
+                        <p class="small" id="artikel">{{ Str::words($item->content, 30, '...') }}</p>
                     </div>
                 </div>
             </div>
@@ -147,40 +175,80 @@
             </div>
     </div>
 </div>
+<br>
 @endsection
 </div>
 @section('js')
 <script type="text/javascript">
-$(document).ready(function() {
+$(function() {
+    var artikel = $('#artikel').text();
+
+    // Ubah kurung kotak jadi kurung lancip di artikel
+    var ar = artikel.replace(/[[]/g,'<');
+    var ar0 = ar.replace(/[\]]/g,'>');
+    var ar1 = ar0.replace(/<script>|<\/script>/,':)');
+
+    $('#artikel').html(ar1);
+    $('p.comment').each(function(key, value){
+        var comments = value.textContent;
+        var ct = comments.replace(/[[]/g,'<');
+        var ct0 = ct.replace(/[\]]/g,'>');
+        var ct1 = ct0.replace(/<script>|<\/script>/,':)');
+        $(this).html(ct1);
+    });
+
+
     $.ajaxSetup({
         headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
-$('i.fa-thumbs-up, i.fa-thumbs-down').click(function(){
-    var id = $(this).parents(".panel").data('id');
-    var c = $('#'+this.id+'-bs3').html();
-    var cObjId = this.id;
-    var cObj = $(this);
-    $.ajax({
-        type:'POST',
-        url:'posts/ajaxRequest',
-        data:{id:id},
-        success:function(data){
-            if(jQuery.isEmptyObject(data.success.attached)){
-                $('#'+cObjId+'-bs3').html(parseInt(c)-1);
-                $(cObj).removeClass("like-post");
-            }else{
-                $('#'+cObjId+'-bs3').html(parseInt(c)+1);
-                $(cObj).addClass("like-post");
-            }
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-});
-$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
-    event.preventDefault();
-    $(this).ekkoLightbox();
+
+    $('#commentForm').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            data: $('#commentForm').serialize(),
+            url: "{{ route('comments.store') }}",
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                $('#commentForm').trigger("reset");
+
+                var threadStarter = "{{ $post->user->username }}";
+                var badge = '';
+                // console.log(data.user.username);
+                if (threadStarter == data.user.username) {
+                    var badge = '<span class="ml-2 badge badge-success">THREAD STARTER</span>';
+                }else if (data.user.role == 'admin') {
+                    var badge = '<span class="ml-2 badge badge-info">ADMIN</span>';
+                }else if(data.user.deleted_at != null) {
+                    var badge = '<span class="ml-2 badge badge-danger">ACCOUNT IS DELETED</span>';
+                }
+
+                // Ubah kurung kotak jadi kurung lancip di comment
+                var ct = data.content.replace(/[[]/g,'<');
+                var ct0 = ct.replace(/[\]]/g,'>');
+                var ct1 = ct0.replace(/<script>|<\/script>/,':)');
+
+                $('#commentBody').append(
+                        '<div class="row"><div class="col-md-12"><div class="card w-100">'+
+                        '<div class="card-header">'+'<i class="fas fa-arrow-right"></i> '+
+                        '<a href="/profile/'+data.user.username+'">'+
+                        '<strong>'+data.user.username+'</strong>'+badge+'</a>'+
+                        '</div><div class="card-body">'+
+                        '<p class="comment">'+ct1+'</p>'+
+                        '</div></div></div></div><br>'
+                );
+            },
+            error: function(err) {
+                // console.log(err.responseJSON.errors);
+                $.each(err.responseJSON.errors, function (key, value) {
+                    alert(value);
+                });
+            }
+        });
     });
 });
+
 </script>
 @endsection

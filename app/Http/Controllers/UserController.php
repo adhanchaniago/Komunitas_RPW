@@ -7,6 +7,8 @@ use App\Comunity;
 use App\User;
 use App\Status;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Auth;
 
 class UserController extends Controller
 {
@@ -38,8 +40,7 @@ class UserController extends Controller
     }
 
     public function show($username) {
-        $user = User::where('username', $username)->firstOrFail();
-        // $status = Status::where('user_id', $user['id'])->firstOrFail();
+        $user = User::where('username', $username)->withTrashed()->firstOrFail();
         return view('user.show', compact('user'));
     }
 
@@ -73,8 +74,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($username)
     {
-        //
+        Auth::logout();
+        $user = User::where('username',$username)->firstOrFail();
+        if ($user->avatar && file_exists(storage_path('app/public/'.$user->avatar))) {
+            Storage::delete('public/'.$user->avatar);
+        }
+        $user->delete();
+        return redirect()->route('home');
     }
 }

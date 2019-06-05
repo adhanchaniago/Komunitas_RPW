@@ -31,10 +31,17 @@
                                 <img src="{{ asset('storage/'.$item->media) }}" alt="" class="img-fluid img-thumbnail">
                             </div>
                             <div class="col-10">
-                                <p class="lead">{{ Str::words($item->content, 30, '...') }}</p>
+                                <p class="artikel">{{ Str::words($item->content, 30, '...') }}</p>
                             </div>
                         </div>
                     </div>
+                    {{-- <div class="card-footer">
+                        <div class="row">
+                            <div class="col-12">
+                                <a href="{{ route('posts.like',Auth::id()) }}" class="lead text-dark">LIKE</a>
+                            </div>
+                        </div>
+                    </div> --}}
                 </div>
             </div>
             <br>
@@ -73,13 +80,17 @@
                         <img src="{{ asset('storage/'.$item->media) }}" alt="" class="img-fluid img-thumbnail">
                     </div>
                     <div class="col-10">
-                        <p class="lead">{{ Str::words($item->content, 30, '...') }}</p>
+                        <p class="artikel">{{ Str::words($item->content, 30, '...') }}</p>
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                
-            </div>
+            {{-- <div class="card-footer">
+                <div class="row">
+                    <div class="col-12">
+                        <a href="{{ route('posts.like',Auth::id()) }}" class="lead text-dark">LIKE</a>
+                    </div>
+                </div>
+            </div> --}}
         </div>
     </div>
     <br>
@@ -120,7 +131,7 @@
                                         <img src="{{ asset('storage/'.$item->media) }}" alt="" class="img-fluid img-thumbnail">
                                     </div>
                                     <div class="col-md-8">
-                                        <p class="lead small">{{ Str::words($item->content, 30, '...') }}</p>
+                                        <p class="small artikel">{{ Str::words($item->content, 30, '...') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -151,7 +162,7 @@
                                         <img src="{{ asset('storage/'.$item->media) }}" alt="" class="img-fluid img-thumbnail">
                                     </div>
                                     <div class="col-md-8">
-                                        <p class="lead small">{{ Str::words($item->content, 30, '...') }}</p>
+                                        <p class="small artikel">{{ Str::words($item->content, 30, '...') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -187,29 +198,14 @@
 </div>
 @section('js')
 <script>
-var updatePostStats = {
-Like : function (postId) {
-document.querySelector('#likes-count-' + postId).textContent++;
-},
-Unlike : function(postId) {
-document.querySelector('#likes-count-' + postId).textContent--;
-}
-};
-var toggleButtonText = {
-Like: function(button) {
-button.textContent = "Unlike";
-},
-Unlike: function(button) {
-button.textContent = "Like";
-}
-};
-var actOnPost = function (event) {
-var postId = event.target.dataset.postId;
-var action = event.target.textContent;
-toggleButtonText[action](event.target);
-updatePostStats[action](postId);
-axios.post('/posts/' + postId + '/act',
-{ action: action });
-};
+$(function() {
+    $('p.artikel').each(function(key, value){
+        var artikel = value.textContent;
+        var ct = artikel.replace(/[[]/g,'<');
+        var ct0 = ct.replace(/[\]]/g,'>');
+        var ct1 = ct0.replace(/<script>|<\/script>/,':)');
+        $(this).html(ct1);
+    })
+});
 </script>
 @endsection

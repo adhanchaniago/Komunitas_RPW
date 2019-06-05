@@ -4,7 +4,7 @@
 	<meta name="description" content="Komunitas">
 	<meta name="author" content="Kelompok 4">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
-	<title>@yield('title')</title>
+	<title>Komunitas</title>
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="{{ asset('css/app.css') }}">
 	{{-- <link rel="stylesheet" href="{{ asset('css/bootstrap-grid.css') }}">
