@@ -2,35 +2,18 @@
 @section('content')
 <br>
 <div class="table-responsive card">
-        <table class="table">
+        <table class="table" id="data-table">
             <thead>
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Name</th>
                     <th scope="col">Username</th>
-                    <th scope="col">Email</th>
                     <th scope="col">Role</th>
-                    <th scope="col">Avatar</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($users as $user)
-                <tr>
-                    <td>{{ $loop->iteration}}</td>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->username }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>
-                        <span class="badge {{ $user->role == "admin" ? 'badge-primary' : 'badge-secondary'}}">{{ $user->role }}</span>
-                    </td>
-                    <td><img src="{{ asset('storage/'.$user->avatar) }}" alt="" width="80px"></td>
-                    </tr>
-                        @endforeach
                     </tbody>
                 </table>
-            </div><br>
-            <div class="row justify-content-center card">
-                {{ $users->links() }}
             </div>
 @endsection
 @section('sidebar')
@@ -50,8 +33,54 @@
 					Komunitas
 				</a>
 			</li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('posts.index') }}">
+                    <span class="fas fa-sticky-note"></span>
+                    Post
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('reply.index') }}">
+                    <span class="fas fa-comment"></span>
+                    Reply
+                </a>
+            </li>
 		</ul>
 	</div>
 </nav>
 <br>
+@endsection
+@section('js')
+<script>
+$(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var table = $('#data-table').DataTable({
+        ajax: {
+            url: "{{ route('user.index') }}",
+            dataSrc: ''
+        },
+        columns: [
+            {data: 'id'},
+            {data: 'name'},
+            {data: 'username'},
+            {
+                data: 'role',
+                render: function(data) {
+                    if (data == 'member') {
+                        var badge = 'btn-info';
+                    }else {
+                        var badge = 'btn-success';
+                    }
+                    return '<p class="btn '+badge+'">'+data+'<p>';
+                }
+            }
+        ]
+    });
+});
+</script>
 @endsection

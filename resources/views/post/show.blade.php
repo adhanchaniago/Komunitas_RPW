@@ -48,12 +48,12 @@
                     <div class="card-header">
                         <i class="fas fa-arrow-right"></i> <a href="{{ route('users.show', $item->username) }}">
                         <strong>{{ $item->username }}</strong>
-                        @if($post->user->username == $item->username)
-                            <span class="ml-2 badge badge-success">THREAD STARTER</span>
-                        @elseif($item->deleted_at != null)
+                        @if($item->deleted_at != null)
                             <span class="ml-2 badge badge-danger">ACCOUNT IS DELETED</span>
-                        @elseif($item->role == 'admin')
-                            <span class="ml-2 badge badge-info">ADMIN</span>
+                        @elseif($post->user->username == $item->username && $item->role == 'admin')
+                            <span class="ml-2 badge badge-success">THREAD STARTER</span><span class="ml-2 badge badge-info">ADMIN</span>
+                        @elseif($post->user->username == $item->username)
+                            <span class="ml-2 badge badge-success">THREAD STARTER</span>
                         @endif
                         </a>
                     </div>

@@ -8,7 +8,7 @@ use App\User;
 use App\Comment;
 
 class Post extends Model {
-	protected $fillable = ['content','like','dislike','user_id','comunity_id','media'];
+	protected $fillable = ['content','title','user_id','comunity_id','media'];
 
     public function comunity() {
     	return $this->belongsTo(Comunity::class, 'comunity_id', 'id');

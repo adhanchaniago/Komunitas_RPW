@@ -15,9 +15,6 @@
   width: 50vw;
   height: 50vh;
   margin: auto;
-  /*
-  min-height: 360px;
-  min-width: 640px;*/
 }
 
 .h80 {
@@ -35,4 +32,12 @@
 .nama-komunitas {
   border-radius: 10px;
   border: 1px solid #fff;
+}
+
+.bg-putih {
+  background: #F2F2F2;
+}
+
+.card {
+  border: 1px solid #8DB5F6;
 }

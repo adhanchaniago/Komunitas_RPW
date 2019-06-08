@@ -7,12 +7,9 @@
 	<title>Komunitas</title>
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="{{ asset('css/app.css') }}">
-	{{-- <link rel="stylesheet" href="{{ asset('css/bootstrap-grid.css') }}">
-	<link rel="stylesheet" href="{{ asset('css/bootstrap-grid.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('css/bootstrap-reboot.css') }}">
-	<link rel="stylesheet" href="{{ asset('css/bootstrap-reboot.min.css') }}"> --}}
-	<link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-	{{-- <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"> --}}
+	{{-- <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}"> --}}
+	<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/all.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 	@yield('css')

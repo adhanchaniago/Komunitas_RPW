@@ -65,7 +65,7 @@ class UserController extends Controller
         $update_user->username = $request->username;
         $update_user->save();
 
-        return redirect()->route('users.show',$request->username);
+        return redirect()->route('users.show',$request->username)->with('status','Profile Successfully Changed');
     }
 
     /**

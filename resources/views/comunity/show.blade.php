@@ -22,11 +22,13 @@
                         <h2 class="display-4 mb-0 bg-dark nama-komunitas"><u>{{ $info['name'] }}</u></h2>
                         <p class="lead">{{ $info['followers'] }}&nbsp;Members</p>
                         {{-- Bukan Follower --}}
+                        @if(Auth::user()->role != 'admin')
                         @if($bool == true)
                             <a class="btn btn-danger btn-danger-un w-100 my-auto" href="{{ route('comunity.unfollow',$comun) }}" title="">Unfollow</a>
                         {{-- Follower --}}
                         @else
                             <a class="btn btn-success btn-success-un w-100 my-auto" href="{{ route('comunity.follow',$comun) }}" title="">Follow</a>
+                        @endif
                         @endif
                     </div>
                 </div>
@@ -103,7 +105,7 @@
 @section('sidebar')
 <br>
 <hr>
-@if($bool == true)
+@if($bool == true||Auth::user()->role == 'admin')
 <div class="row">
     <div class="col-md-12 text-justify">
         <a class="btn btn-warning w-100 my-auto" href="{{ route('event.create',$comun) }}" title="">Create Event</a>

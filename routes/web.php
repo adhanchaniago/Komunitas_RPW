@@ -41,13 +41,16 @@ Route::middleware(['auth'])->group(function (){
 	Route::prefix('admin')->group(function(){
 		Route::get('/', 'AdminController@index')->name('admin.index');
 		Route::get('users', 'AdminController@UserIndex')->name('user.index');
-		Route::get('comunity/create', 'AdminController@CommunityUpdate')->name('community.create');
+		Route::get('comunity/create', 'AdminController@CommunityCreate')->name('community.create');
 		Route::get('comunity', 'AdminController@CommunityIndex')->name('community.index');
-		Route::get('comunity/{id}', 'AdminController@CommunityShow')->name('community.show');
 		Route::get('comunity/{id}/edit', 'AdminController@CommunityEdit')->name('community.edit');
-		Route::PUT('comunity/{id}/update', 'AdminController@CommunityUpdate')->name('community.update');
+		Route::POST('comunity/update', 'AdminController@CommunityUpdate')->name('community.update');
 		Route::delete('comunity/{id}/delete', 'AdminController@CommunityDestroy')->name('community.destroy');
-		Route::get('comunity/store', 'AdminController@CommunityUpdate')->name('community.store');
+		Route::POST('comunity/store', 'AdminController@CommunityStore')->name('community.store');
+		Route::get('posts', 'AdminController@postIndex')->name('posts.index');
+		Route::get('reply', 'AdminController@replyIndex')->name('reply.index');
+		Route::delete('posts/{id}/delete', 'AdminController@postDestroy');
+		Route::delete('reply/{id}/delete', 'AdminController@replyDestroy');
 	});
 
 	/**

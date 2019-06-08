@@ -17,7 +17,7 @@ class CreateComunitiesTable extends Migration
             $table->string('banner');
             $table->string('type');
             $table->string('name');
-            $table->bigInteger('followers');
+            $table->bigInteger('followers')->default(0);
             $table->timestamps();
         });
     }

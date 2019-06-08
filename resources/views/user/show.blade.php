@@ -1,6 +1,8 @@
 @extends('template.app')
 <div class="container">
     @section('content')
+    <div class="row">
+    <div class="col-12">
     @if (session('status'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>{{ session('status') }}</strong>
@@ -26,6 +28,8 @@
         <p class="lead">This Account Is Deleted</p>
     </div>
     @endif
+    </div>
+    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="card w-100">
@@ -56,14 +60,10 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
                         </div>
                         @else
                             <div class="col-12">
-                                <input type="text" name="status" value="{{ $user->statuses == null ? '' : $user->statuses->status }}" class="form-control{{ $errors->has('status') ? ' is-invalid' : '' }}" disabled>
+                                <p class="text-center" id="statusUser">{{ $user->statuses == null ? '' : $user->statuses->status }}</p>
                             </div>
                         @endif
                     </div>
@@ -88,7 +88,7 @@
                     <div class="col-12">
                         <div class="card w-100">
                             <div class="card-header">
-                                <a href="{{ route('posts.show', $item->title) }}">{{ $item->comunity->name }}</a>
+                                <a href="{{ route('posts.show', $item->title) }}">{{ $item->title }}</a>
                                 &nbsp;On&nbsp;<a href="{{ route('comunity.show', $item->comunity->name) }}">{{ $item->comunity->name }}</a>
                             </div>
                             <div class="card-body">
@@ -97,7 +97,7 @@
                                         <img src="{{ asset('storage/'.$item->media) }}" alt="post-media" class="img-fluid img-thumbnail">
                                     </div>
                                     <div class="col-10">
-                                        {{ Str::words($item->content, 50, '...') }}
+                                        <p class="artikel">{{ Str::words($item->content, 50, '...') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +116,7 @@
                                 On&nbsp;<a href="{{ route('posts.show', $item->post->title) }}">{{ $item->post->title }}</a>
                             </div>
                             <div class="card-body">
-                                {{ Str::words($item->content, 50, '...') }}
+                                <p class="comment">{{ Str::words($item->content, 50, '...') }}</p>
                             </div>
                         </div>
                     </div>
@@ -257,35 +257,33 @@ $(function() {
         }
     });
 
-    var ct = $('#status').val().replace(/[[]/g,'<');
+    $('p.artikel').each(function(key, value){
+        var artikel = value.textContent;
+        var ar = artikel.replace(/[[]/g,'<');
+        var ar0 = ar.replace(/[\]]/g,'>');
+        var ar1 = ar0.replace(/<script>|<\/script>/,':)');
+        $(this).html(ar1);
+    });
+
+    $('p.comment').each(function(key, value){
+        var comment = value.textContent;
+        var ct = comment.replace(/[[]/g,'<');
+        var ct0 = ct.replace(/[\]]/g,'>');
+        var ct1 = ct0.replace(/<script>|<\/script>/,':)');
+        $(this).html(ct1);
+    });
+
+    var ct = $('#statusUser').text().replace(/[[]/g,'<');
     var ct0 = ct.replace(/[\]]/g,'>');
     var ct1 = ct0.replace(/<script>|<\/script>/,':)');
-    $('#status').val(ct1);
+    $('#statusUser').html(ct1);
 
-    // $('#saveBtn').click(function (e) {
-    //     e.preventDefault();
-    //     alert('s');
-            // 
-            // $.ajax({
-            //     data: $('#formStatus').serialize(),
-            //     url: "{ route('status.store') }",
-            //     type: "POST",
-            //     dataType: 'json',
-            //     success: function (data) {
-            //         alert('s');
-            //     },
-            //     error: function (xhr) {
-            //         $.each(err.responseJSON.errors, function (key, value) {
-            //             alert(value);
-            //         });
-            //     }
-            // });
-        // });
     $('#editStatus').click(function(e) {
         e.preventDefault();
         $('#modelHeading').html("Edit Status");
         $('#statusModal').modal('show');
     });
+    
     $('#formStatus').submit(function(e) {
         e.preventDefault();
         $.ajax({
@@ -298,7 +296,6 @@ $(function() {
                 var ct = data.statuses.status.replace(/[[]/g,'<');
                 var ct0 = ct.replace(/[\]]/g,'>');
                 var ct1 = ct0.replace(/<script>|<\/script>/,':)');
-                // $('#status').val(ct1);
                 $('#statusUser').html(ct1);
             },
             error: function(err) {

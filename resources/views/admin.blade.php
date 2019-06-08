@@ -90,6 +90,18 @@
 					Komunitas
 				</a>
 			</li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('posts.index') }}">
+                    <span class="fas fa-sticky-note"></span>
+                    Post
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('reply.index') }}">
+                    <span class="fas fa-comment"></span>
+                    Reply
+                </a>
+            </li>
 		</ul>
 	</div>
 </nav>

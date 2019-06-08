@@ -106,15 +106,4 @@ class CommunityController extends Controller
         return redirect()->route('comunity.show',$name);
 
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Community  $community
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Community $community)
-    {
-        //
-    }
 }
